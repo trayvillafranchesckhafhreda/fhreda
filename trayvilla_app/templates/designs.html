@@ -1,0 +1,278 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Franchesckha Fhreda Trayvilla</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
+
+    <style>
+        /* Base Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background-color: #080712;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            padding: 40px 0;
+        }
+
+        .bg-glow {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background:
+                radial-gradient(circle at 90% 30%, #6a00ff44 0%, transparent 50%),
+                radial-gradient(circle at 10% 70%, #ff007f33 0%, transparent 50%),
+                linear-gradient(160deg, #0d0b1f 0%, #080712 100%);
+            z-index: -1;
+        }
+
+        /* Glass Card Container */
+        .glass-card {
+            width: 95%;
+            max-width: 1150px;
+            min-height: 650px;
+            height: auto;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(35px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 40px;
+            padding: 50px 70px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Navigation */
+        nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        /* Updated logo font-size and styling for the longer text */
+        .logo { font-size: 18px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #ff007f; }
+        nav ul { display: flex; list-style: none; }
+        nav ul li { margin-left: 30px; }
+        nav ul li a {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s ease;
+            padding-bottom: 4px;
+        }
+        nav ul li a:hover, nav ul li a.active { color: #ff007f; border-bottom: 2px solid #ff007f; }
+
+        /* Content Area */
+        .content-area { flex-grow: 1; display: flex; align-items: center; position: relative; }
+        .section { display: none; width: 100%; animation: fadeIn 0.6s ease-out forwards; }
+        .section.active { display: flex; justify-content: space-between; align-items: center; gap: 40px; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Text Styles */
+        .hero-text h1 { font-size: 40px; font-weight: 600; margin-bottom: 15px; line-height: 1.2; }
+        .hero-text p { font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.8; max-width: 580px; margin-bottom: 30px; }
+
+        /* Info Boxes */
+        .info-box {
+            background: rgba(255,255,255,0.04);
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255,255,255,0.08);
+            width: 100%;
+            max-width: 500px;
+        }
+        .info-box strong { font-size: 15px; color: #ff007f; display: block; margin-bottom: 2px; }
+        .info-box em { font-size: 13px; color: rgba(255,255,255,0.5); font-style: normal; }
+
+        /* Project Grid */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 10px;
+            max-width: 650px;
+        }
+        .project-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            aspect-ratio: 4/3;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .project-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; }
+        .project-item:hover img { transform: scale(1.1); filter: brightness(0.6); }
+        .project-label {
+            position: absolute; bottom: 10px; left: 12px;
+            font-size: 11px; font-weight: 600; text-transform: uppercase;
+            background: rgba(255, 0, 127, 0.8); padding: 2px 8px; border-radius: 4px;
+        }
+
+        /* Profile & Icons */
+        .profile-wrap { width: 350px; display: flex; justify-content: center; align-items: center; }
+        .profile-circle {
+            width: 320px; height: 320px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2);
+            padding: 10px; box-shadow: 0 0 40px rgba(255,255,255,0.05);
+            overflow: hidden;
+        }
+        .profile-circle img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+
+        .actions { display: flex; align-items: center; gap: 20px; }
+
+        .socials a {
+            width: 45px; height: 45px; background: rgba(255,255,255,0.05); border-radius: 50%;
+            display: inline-flex; justify-content: center; align-items: center;
+            color: white; text-decoration: none; transition: 0.3s; border: 1px solid rgba(255,255,255,0.1);
+            font-size: 18px;
+        }
+        .socials a:hover { background: #ff007f; transform: translateY(-5px); border-color: #ff007f; }
+
+        /* Mobile Adjustments */
+        @media (max-width: 900px) {
+            .glass-card { padding: 40px; }
+            .section.active { flex-direction: column-reverse; text-align: center; }
+            nav { flex-direction: column; gap: 20px; }
+            nav ul { flex-wrap: wrap; justify-content: center; gap: 10px; }
+            nav ul li { margin-left: 0; margin: 0 10px; }
+            .project-grid { grid-template-columns: 1fr; margin: 0 auto; }
+            .info-box { margin: 0 auto 12px; }
+            .actions { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow"></div>
+
+    <div class="glass-card">
+        <nav>
+            <div class="logo">Welcome to my Portfolio</div>
+            <ul>
+                <li><a onclick="show('home')" id="l-home" class="active">Home</a></li>
+                <li><a onclick="show('education')" id="l-education">Education</a></li>
+                <li><a onclick="show('projects')" id="l-projects">Projects</a></li>
+                <li><a onclick="show('skills')" id="l-skills">Skills</a></li>
+                <li><a onclick="show('hobbies')" id="l-hobbies">Hobbies</a></li>
+            </ul>
+        </nav>
+
+        <div class="content-area">
+            <div id="home" class="section active">
+                <div class="hero-text">
+                    <h1>Franchesckha Fhreda Trayvilla</h1>
+                    <p style="text-align: justify;">
+                        A Computer Science student at Negros Oriental State University. As a student developer, I am passionate about blending logic with creativity—crafting digital experiences that are not just functional, but also visually engaging.<br><br>
+
+                        With a background in ICT and GAS Biology, I bring a unique perspective to problem-solving. I enjoy working with HTML, CSS, Python, and C++, while utilizing my skills in Photoshop, Illustrator, and InDesign to ensure every project has a clean and modern aesthetic.<br><br>
+
+                        When I’m not coding, you’ll find me exploring strategic worlds in online games, diving into the storytelling of a good series, or staying active through swimming and other sports. I am a creative soul who loves to write, draw, and sing, always looking for new ways to express ideas and learn new technologies.
+                    </p>
+                    <div class="actions">
+                        <div class="socials">
+                            <a href="https://github.com/trayvillafranchesckhafhreda"><i class="fab fa-github"></i></a>
+                            <a href="https://www.linkedin.com/in/franchesckha-fhreda-trayvilla-1b79163bb/"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="https://www.facebook.com/franchesckha.fhreda.t.trayvilla/"><i class="fab fa-facebook-f"></i></a>
+                            <a href="mailto:trayvillafhranchesckhafhreda@gmail.com"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-wrap">
+                    <div class="profile-circle">
+                        <img src="{% static 'profile.png' %}" alt="Profile">
+                    </div>
+                </div>
+            </div>
+
+            <div id="education" class="section">
+                <div class="hero-text">
+                    <h1>Education</h1>
+                    <div class="info-box">
+                        <strong>College (2023–Ongoing)</strong>
+                        Negros Oriental State University<br><em>BS Computer Science</em>
+                    </div>
+                    <div class="info-box">
+                        <strong>Senior High School (2021–2023)</strong>
+                        Bayawan National High School-SHS<br><em>Strand: GAS Biology</em>
+                    </div>
+                    <div class="info-box">
+                        <strong>Junior High School (2017–2021)</strong>
+                        Bayawan National High School-JHS<br><em>Strand: ICT</em>
+                    </div>
+                    <div class="info-box">
+                        <strong>Elementary (2012–2017)</strong>
+                        Bayawan City East Central School
+                    </div>
+                </div>
+                <div class="profile-wrap"><i class="fas fa-graduation-cap" style="font-size: 120px; opacity: 0.1;"></i></div>
+            </div>
+
+            <div id="projects" class="section">
+                <div class="hero-text">
+                    <h1>Projects & Achievements</h1>
+                    <p>A collection of my works and academic recognition.</p>
+                    <div class="project-grid">
+                        <div class="project-item">
+                            <img src="{% static 'certificate1.jpg' %}" alt="Certificate 1">
+                            <span class="project-label">Achievement</span>
+                        </div>
+                        <div class="project-item">
+                            <img src="{% static 'certificate2.jpg' %}" alt="Certificate 2">
+                            <span class="project-label">Recognition</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-wrap"><i class="fas fa-trophy" style="font-size: 120px; opacity: 0.1;"></i></div>
+            </div>
+
+            <div id="skills" class="section">
+                <div class="hero-text">
+                    <h1>Skills</h1>
+                    <div class="info-box">
+                        <strong>Programming</strong>
+                        HTML, CSS, Basic Python, c++, and Responsive Web Design.
+                    </div>
+                    <div class="info-box">
+                        <strong>Design</strong>
+                        Photoshop, Adobe Illustrator and Indesign.
+                    </div>
+                    <div class="info-box">
+                        <strong>Logical Thinking</strong>
+                        Problem-solving and basic programming logic.
+                    </div>
+                </div>
+                <div class="profile-wrap"><i class="fas fa-brain" style="font-size: 120px; opacity: 0.1;"></i></div>
+            </div>
+
+            <div id="hobbies" class="section">
+                <div class="hero-text">
+                    <h1>Hobbies</h1>
+                    <div class="info-box"><strong>Playing Online Games</strong>Strategic and competitive gaming.</div>
+                    <div class="info-box"><strong>Watching Series</strong>Engaging in meaningful storytelling.</div>
+                    <div class="info-box"><strong>Sporty</strong>Active lifestyle and physical fitness.</div>
+                </div>
+                <div class="profile-wrap"><i class="fas fa-gamepad" style="font-size: 120px; opacity: 0.1;"></i></div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function show(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('nav ul li a').forEach(a => a.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.getElementById('l-' + id).classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
